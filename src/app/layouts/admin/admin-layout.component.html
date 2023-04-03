@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <div class="sidebar" data-color="white">
+        <app-sidebar-cmp *ngIf="menuItems.length != 0" [menuItems]="menuItems"></app-sidebar-cmp>
+        <div class="sidebar-background" [style]="'background: '+customerDetail.color+' url(assets/img/lock.jpg) repeat-x 0 0; --bubble-color: '+customerDetail.color+'; --dropdown-color: #fff; background-size: cover; background-position: center;'"></div>
+    </div>
+    <div class="main-panel">
+        <app-navbar-cmp *ngIf="menuItems.length != 0" [menuItems]="menuItems"></app-navbar-cmp>
+        <router-outlet></router-outlet>
+        <div *ngIf="!isMap()">
+            <app-footer-cmp></app-footer-cmp>
+        </div>
+    </div>
+    <app-fixedplugin></app-fixedplugin>
+</div>

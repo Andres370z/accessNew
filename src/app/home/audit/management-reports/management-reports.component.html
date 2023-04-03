@@ -1,0 +1,148 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">content_paste</i>
+                        </div>
+                        <h4 class="card-title">Registrar Informe</h4>
+                    </div>
+                    <div class="card-body ">
+                        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="name" placeholder="Nombres" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="surname" placeholder="Apellidos" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="telephone" placeholder="Número de teléfono" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="identificationCard" placeholder="Número de identidad" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="email" formControlName="email" placeholder="Correo" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="password" formControlName="password" placeholder="Valor" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="password" formControlName="passwordVerifi" placeholder="Verificar Valor" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-12 card-footer ">
+                                <button mat-raised-button type="submit" class="btn btn-fill btn-rose" [style]="'background-color: '+customerDetail.color+' !important;'">Crear informe</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="eventsData.length != 0">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">content_paste</i>
+                        </div>
+                        <h4 class="card-title">Lista de informes</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <mat-form-field>
+                                <mat-label>Filter</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSource" matSort>
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                                </ng-container>
+
+                                <!-- Nombres Column -->
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                                </ng-container>
+
+                                <!-- Nombres Column -->
+                                <ng-container matColumnDef="surname">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellidos</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.surname}} </td>
+                                </ng-container>
+
+                                <!-- Nombres Column -->
+                                <ng-container matColumnDef="telephone">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.telephone}} </td>
+                                </ng-container>
+
+                                <!-- Nombres Column -->
+                                <ng-container matColumnDef="identificationCard">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Número de Identidad</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.identificationCard}} </td>
+                                </ng-container>
+
+
+                                <!-- Nombres Column -->
+                                <ng-container matColumnDef="email">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+                                </ng-container>
+
+
+
+                                <!-- Fecha de registro Column -->
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                                    <td class="td-actions text-center ajust" mat-cell *matCellDef="let row">
+                                        <!-- <button mat-raised-button type="button" class="btn btn-info">
+                                              <i class="material-icons">person</i>
+                                          </button>-->
+                                        <button mat-raised-button type="button" class="btn btn-success" (click)="routeList(row.id)">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                        <button *ngIf="usersData.user.idrol == 2" (click)="deleteList(row.id)" mat-raised-button type="button" class="btn btn-danger">
+                                              <i class="material-icons">close</i>
+                                          </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página de registro"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

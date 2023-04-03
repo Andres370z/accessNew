@@ -1,0 +1,116 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">perm_media</i>
+                        </div>
+                        <h4 class="card-title">Registrar imagenes</h4>
+                    </div>
+                    <div class="card-body ">
+                        <form method="#" action="#" class="form">
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccciona el evento</mat-label>
+                                        <mat-select [(ngModel)]="selectItems">
+                                            <mat-option class="ajust"  *ngFor="let item of eventItems" [value]="item.id" [style]="'--background-color:'+customerDetail.color+';'">{{item.companyNameEvent}}</mat-option>
+                                        </mat-select>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="file" multiple id="formFileDisabled" (change)="getFileDetails($event)"/>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12">
+                                    <div class="images" *ngIf="images">
+                                      <div *ngFor="let item of images">
+                                        <img [src]="item.img.dataURL" alt="scanApp">
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer ">
+                        <button mat-raised-button type="submit" class="btn btn-fill btn-rose" [style]="'background-color: '+customerDetail.color+' !important;'" (click)="resgisterImageEvents()">cargar imagenes</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="eventsData.length != 0">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">Lista Imagenes</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <mat-form-field>
+                                <mat-label>Filter</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSource" matSort>
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                                </ng-container>
+
+                                <!-- Empresa Column -->
+                                <ng-container matColumnDef="company">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.companyNameEvent}} </td>
+                                </ng-container>
+
+                                <!-- Nombres Column -->
+                                <ng-container matColumnDef="nameUser">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.nameEvent}} </td>
+                                </ng-container>
+
+                                <!-- Nombres Column -->
+                                <ng-container matColumnDef="img">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Imagen </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <img class="listImg" [src]="'https://api.scanapp.com.co/img/events/'+row.imgEvent" alt="scanApp">
+                                    </td>
+                                </ng-container>
+
+                                <!-- Fecha de registro Column -->
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                                    <td class="td-actions text-center ajust" mat-cell *matCellDef="let row">
+                                        <!-- <button mat-raised-button type="button" class="btn btn-info">
+                                              <i class="material-icons">person</i>
+                                          </button>
+                                        <button mat-raised-button type="button" class="btn btn-success">
+                                              <i class="material-icons">edit</i>
+                                          </button> -->
+                                        <button *ngIf="usersData.user.idrol == 2" (click)="deleteList(row.idEvents)" mat-raised-button type="button" class="btn btn-danger">
+                                              <i class="material-icons">close</i>
+                                          </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página de registro"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

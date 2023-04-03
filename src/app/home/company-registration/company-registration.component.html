@@ -1,0 +1,170 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" [style]="'--background-color: orange;'">
+              <i class="material-icons">widgets</i>
+            </div>
+            <h4 class="card-title">Registro de empresa/cliente</h4>
+          </div>
+          <!-- FORMULARIO -->
+          <div class="card-body">
+            <form class="form" [formGroup]="form" (ngSubmit)="saveData()">
+              <div class="row">
+                <div class="col-4"> <!--NOMBRE-->
+                  <mat-form-field  class="example-full-width">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput class="form-control" type="text" placeholder="Ingresa el nombre del usuario"
+                      formControlName="name" autocomplete="off">
+                    <mat-icon>person</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4"> <!--NIT-->
+                  <mat-form-field  class="example-full-width">
+                    <mat-label>Nit</mat-label>
+                    <input matInput class="form-control" type="text" placeholder="Ingresa el Nit de la empresa"
+                      formControlName="nit" autocomplete="off">
+                    <mat-icon>business_center</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4"> <!--Celular-->
+                  <mat-form-field  class="example-full-width">
+                    <mat-label>Celular</mat-label>
+                    <input matInput class="form-control" type="number" placeholder="Ingresa el número de celular"
+                      formControlName="telephone" autocomplete="off">
+                    <mat-icon> phone</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4"> <!--Correo-->
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput class="form-control" type="text" placeholder="Ingresa el correo electronico"
+                      formControlName="email" autocomplete="off">
+                    <mat-icon> mail_outline</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4"> <!--Contacto-->
+                  <mat-form-field  class="example-full-width">
+                    <mat-label>Contacto</mat-label>
+                    <input matInput class="form-control" type="number" placeholder="Ingresa el teléfono de contacto"
+                      formControlName="contact" autocomplete="off">
+                    <mat-icon> contacts</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4"> <!--Departamento-->
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Selecciona el Departamento</mat-label>
+                    <mat-select formControlName="departament">
+                      <mat-option *ngFor="let item of departamento" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-icon>room</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4"> <!--municipality-->
+                  <mat-form-field  class="example-full-width">
+                    <mat-label>Municipio</mat-label>
+                    <input matInput class="form-control" type="text" placeholder="Ingresa el municipio"
+                      formControlName="municipality" autocomplete="off">
+                    <mat-icon> room</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4"> <!--address-->
+                  <mat-form-field  class="example-full-width">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput class="form-control" type="text" placeholder="Ingresa la dirección"
+                      formControlName="address" autocomplete="off">
+                    <mat-icon> location_on</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-12 card-footer ">
+                <button mat-mini-fab type="submit" [disabled]="form.invalid" class="btn btn-fill btn-rose">Realizar
+                  registro</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!--Botones-->
+      <div class="col-md-12">
+        <button class="btn btn-fill btn-rose" (click)="clear()" [disabled]="form.invalid" style="margin: 25px">Ingresar un nuevo
+          registro</button>
+        <button class="btn btn-fill btn-rose" (click)="response=!response" >
+          Tabla de registros</button>
+      </div>
+      <!-- TABLA DE REGISTROS -->
+      <div class="col-md-12" *ngIf="response">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" [style]="'--background-color: '">
+              <i class="material-icons">widgets</i>
+            </div>
+            <h4 class="card-title">Tabla de Registro</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table mat-table [dataSource]="dataSource">
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <!-- Nit Column -->
+                <ng-container matColumnDef="nit">
+                  <th mat-header-cell *matHeaderCellDef> Nit </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nit}} </td>
+                </ng-container>
+
+                <!-- telephone Column -->
+                <ng-container matColumnDef="telephone">
+                  <th mat-header-cell *matHeaderCellDef> Telefono </th>
+                  <td mat-cell *matCellDef="let element"> {{element.telephone}} </td>
+                </ng-container>
+
+                <!-- email Column -->
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef> Email </th>
+                  <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <!-- contact Column -->
+                <ng-container matColumnDef="contact">
+                  <th mat-header-cell *matHeaderCellDef> Contacto </th>
+                  <td mat-cell *matCellDef="let element"> {{element.contact}} </td>
+                </ng-container>
+
+                <!-- depatament Column -->
+                <ng-container matColumnDef="departament">
+                  <th mat-header-cell *matHeaderCellDef> Deapartamento </th>
+                  <td mat-cell *matCellDef="let element"> {{element.departament}} </td>
+                </ng-container>
+
+                <!-- municipality Column -->
+                <ng-container matColumnDef="municipality">
+                  <th mat-header-cell *matHeaderCellDef> Municipio </th>
+                  <td mat-cell *matCellDef="let element"> {{element.municipality}} </td>
+                </ng-container>
+
+                <!-- municipality address -->
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef> Direccion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Seleccionar página de registro"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

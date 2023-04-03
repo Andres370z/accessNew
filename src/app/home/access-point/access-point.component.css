@@ -1,0 +1,29 @@
+.form {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+    padding-left: 0px!important;
+
+}
+.mat-form-field-infix {
+    display: flex !important;
+}
+
+
+th.mat-header-cell {
+    text-align: center!important;
+}
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+    padding-right: 0px!important;
+}
+td.mat-cell {
+    text-align: center!important;
+}
+th.mat-header-cell {
+    font-weight: bold!important;
+    color: #000!important;
+}

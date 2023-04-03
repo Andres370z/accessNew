@@ -1,0 +1,191 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4 {
+    font-family: 'Myriad Pro Regular';
+}
+
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 150px;
+}
+
+.item-exit {
+    position: relative;
+    bottom: 46px;
+    left: 0;
+    right: 0;
+    top: 30px;
+    cursor: pointer;
+    border-top: #c0c1c2 solid 2px;
+}
+
+.nav-link {
+    padding: -0.5rem 0.5rem !important;
+}
+
+.img-login {
+    width: 200px;
+}
+
+.logo a h4 {
+    padding: 10px;
+    text-align: center;
+}
+
+.newlist {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center center;
+}
+
+.particles-js-canvas-el {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
+@media (min-width: 992px) {
+    .typo-line {
+        padding-left: 140px;
+        margin-bottom: 40px;
+        position: relative;
+    }
+    .typo-line .category {
+        transform: translateY(-50%);
+        top: 50%;
+        left: 0px;
+        position: absolute;
+    }
+}
+
+.swal2-popup.swal2-toast.swal2-show {
+    background-size: cover;
+    width: 190px !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Myriad Pro Regular';
+    background: #ffffff85;
+    padding: 10px;
+    box-shadow: none;
+}
+
+#swal2-title {
+    margin: 0px;
+    margin-top: 0px;
+    margin-top: -10px;
+}
+
+.swal2-image {
+    margin: 0px!important;
+}
+
+.card .card-title {
+    font-weight: bold;
+}
+
+.card-header.card-header-rose.text-center {
+    background: linear-gradient(60deg, #D01914, #D01914) !important;
+}
+
+.p-error {
+    color: #d12e26;
+    text-align: center;
+    width: 100%;
+}
+
+.copyright.pull-right {
+    width: 100%;
+}
+
+.sebm-google-map-container {
+    height: 300px;
+}
+
+#map {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 60px);
+    margin-top: 70px;
+}
+
+.places-buttons .btn {
+    margin-bottom: 30px
+}
+
+.space-70 {
+    height: 70px;
+    display: block;
+}
+
+.tim-row {
+    margin-bottom: 20px;
+}
+
+.tim-typo {
+    padding-left: 25%;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.tim-typo .tim-note {
+    bottom: 10px;
+    color: #c0c1c2;
+    display: block;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 13px;
+    left: 0;
+    margin-left: 20px;
+    position: absolute;
+    width: 260px;
+}
+
+.tim-row {
+    padding-top: 50px;
+}
+
+.tim-row h3 {
+    margin-top: 0;
+}
+
+@media (min-width: 992px) {
+    .typo-line {
+        padding-left: 140px;
+        margin-bottom: 40px;
+        position: relative;
+    }
+    .typo-line .category {
+        transform: translateY(-50%);
+        top: 50%;
+        left: 0px;
+        position: absolute;
+    }
+}
+
+@media (max-width: 750px) {
+    .particles-js-canvas-el {
+        z-index: 0;
+    }
+    .wrapper.wrapper-full-page {
+        z-index: 1 !important;
+    }
+}

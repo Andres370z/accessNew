@@ -1,0 +1,54 @@
+table {
+    width: 100%;
+}
+
+.ajust {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.ajust button {
+    width: 23px !important;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    padding: 15px;
+    height: 23px !important;
+    margin: 9px;
+}
+
+.ajust button i {
+    position: absolute;
+    display: block;
+    top: 4px;
+    margin: 0 auto;
+    bottom: 0;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.mat-header-row th {
+    text-align: center;
+}
+
+.gallery-item {
+    margin: 5px;
+    width: 250px;
+}
+
+.gallery-item .img-responsive {
+    width: 250px;
+}
+
+.download {
+    padding: 10px;
+    border-radius: 10px;
+    border: 0px;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}

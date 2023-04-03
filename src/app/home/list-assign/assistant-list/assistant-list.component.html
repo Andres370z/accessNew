@@ -1,0 +1,19 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon card-header-rose">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">grid_on</i>
+                        </div>
+                        <h4 class="card-title ">Listado eventos</h4>
+                    </div>
+                    <div class="card-body">
+                        <full-calendar *ngIf="calendarVisible" #fullcalendar [options]="calendarOptions" [style]="'--background-color: '+customerDetail.color+';'"></full-calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

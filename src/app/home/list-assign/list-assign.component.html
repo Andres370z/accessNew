@@ -1,0 +1,30 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">widgets</i>
+                        </div>
+                        <h4 class="card-title">Listado de Registro Realizados</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" *ngIf="eventList.length != 0" style="width: 100%;">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menuitem of eventList">
+                                <div class="card" (click)="routerList(menuitem)" [style]="'background: '+customerDetail.color+'; border-radius: 6px;opacity: 0.8; color: #fff;'">
+                                    <div class="fondoItem" [style]="'background-image: url(https://apiauditedusoft.scanapp.com.co/img/sedeInstitutions/'+menuitem.imgSedeInstitutions+'); --bubble-color: '+customerDetail.color+';'">
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h2>{{menuitem.institutions}}</h2>
+                                        <h4>{{menuitem.sedeInstitutions}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

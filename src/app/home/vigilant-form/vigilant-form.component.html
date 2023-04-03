@@ -1,0 +1,211 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Registrar Peaton -->
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+              <i class="material-icons">widgets</i>
+            </div>
+            <h4 class="card-title">Registro de ingreso Peatonal</h4>
+          </div>
+          <!-- REGISTRO PEATONAL -->
+          <div class="card-body">
+            <form class="form" [formGroup]="form" (ngSubmit)="saveData()">
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput class="form-control" type="text" formControlName="nameOne"
+                      placeholder="Ingresa el nombre del usuario" autocomplete="off">
+                      <mat-icon>face</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput class="form-control" type="text" formControlName="lastname"
+                      placeholder="Ingresa el apellido del usuario" autocomplete="off">
+                      <mat-icon>face</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput class="form-control" type="number" formControlName="id"
+                      placeholder="Ingresa el numero de C.C" autocomplete="off">
+                      <mat-icon>perm_identity</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput class="form-control" type="text" formControlName="destination"
+                      placeholder="Ingresa el destino" autocomplete="off">
+                      <mat-icon> place</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Lleva portátil</mat-label>
+                    <mat-select formControlName="portatil">
+                      <mat-option *ngFor="let item of portatil" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-icon>computer</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput class="form-control" type="text" formControlName="marca"
+                      placeholder="Ingresa la marca">
+                    <mat-icon>computer</mat-icon>
+                  </mat-form-field>
+                </div>
+                <!-- HASTA AQUI -->
+                <div class="col-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Ingresa la fecha</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-12 card-footer ">
+                <button mat-mini-fab type="submit" [disabled]="form.invalid" class="btn btn-fill btn-rose"
+                  [style]="'background-color: '+customerDetail.color+''">Registrar Peatón</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Botones -->
+      <div class="col-md-12">
+        <button mat-mini-fab class="btn btn-fill btn-rose" (click)="response=!response"
+          [style]="'background-color: '+customerDetail.color+''" style="margin: 25px">Ver registro de peatones</button>
+        <button class="btn btn-fill btn-rose" (click)="clear()" [disabled]="form.invalid">Ingresar un nuevo
+          peatón</button>
+        <button class="btn btn-fill btn-rose" (click)="responseTwo=!responseTwo" disabled
+          style="margin: 25px">Registrar Salida</button>
+      </div>
+      <!-- Registrar Salida -->
+      <div class="col-md-12" *ngIf="responseTwo">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+              <i class="material-icons">widgets</i>
+            </div>
+            <h4 class="card-title">Registro de Salida peatonal</h4>
+          </div>
+          <!-- REGISTRO Salida -->
+          <div class="card-body">
+            <form class="form">
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput class="form-control" type="number" placeholder="Ingresa el numero de C.C"
+                      autocomplete="off">
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Lleva portatil</mat-label>
+                    <mat-select [formControlName]="portatil">
+                      <mat-option *ngFor="let item of portatil" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput class="form-control" type="text" placeholder="Ingresa la marca">
+                  </mat-form-field>
+                </div>
+
+
+                <div class="col-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Ingresa la fecha</mat-label>
+                    <input matInput [matDatepicker]="picker">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-12 card-footer ">
+                <button mat-mini-fab disabled class="btn btn-fill btn-rose"
+                  [style]="'background-color: '+customerDetail.color+''">Registrar Salida</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- VER REGISTRO DE PEATONES  -->
+      <div class="col-md-12" *ngIf="response">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+              <i class="material-icons">widgets</i>
+            </div>
+            <h4 class="card-title">Lista de Peatones Registrados</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table mat-table [dataSource]="dataSource" matSort>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <!-- LastName Column -->
+                <ng-container matColumnDef="lastName">
+                  <th mat-header-cell *matHeaderCellDef> Apellido </th>
+                  <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                </ng-container>
+
+                <!-- C.C Column -->
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef> C.C </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+
+                <!-- destination Column -->
+                <ng-container matColumnDef="destination">
+                  <th mat-header-cell *matHeaderCellDef> Destino </th>
+                  <td mat-cell *matCellDef="let element"> {{element.destination}} </td>
+                </ng-container>
+
+                <!-- maraca Column -->
+                <ng-container matColumnDef="marca">
+                  <th mat-header-cell *matHeaderCellDef> Marca </th>
+                  <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
+                </ng-container>
+
+                <!-- date Column -->
+                <ng-container matColumnDef="date">
+                  <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                  <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                </ng-container>
+
+                <!-- portatil Column -->
+                <ng-container matColumnDef="portatil">
+                  <th mat-header-cell *matHeaderCellDef> Portatil </th>
+                  <td mat-cell *matCellDef="let element"> {{element.portatil}} </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Seleccionar página de registro"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
