@@ -4,19 +4,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { companyUserData } from 'src/app/interfaces/companyUserData';
 import { Menssage } from 'src/app/models/router';
+import { AlertService } from 'src/app/service/alert.service';
+import { AuthService } from 'src/app/service/auth.service';
 import { CompanyResgistrationService } from 'src/app/service/company-resgistration.service';
+import { ExcelService } from 'src/app/service/excel.service';
+import { LocalstoreService } from 'src/app/service/localstore.service';
 
-export interface companyUserData{
-  name: string,
-  nit: string,
-  telephone: string,
-  email: string,
-  contact: string,
-  departament: string,
-  municipality: string,
-  address: string,
-}
+
 @Component({
   selector: 'app-company-registration',
   templateUrl: './company-registration.component.html',
@@ -27,10 +23,15 @@ export class CompanyRegistrationComponent implements OnInit {
   'Caquetá','Casanare','Cauca','Cesar','Chocó','Córdoba','Cundinamarca','Guainía','Guaviare','Huila', 
   'La Guajira','Magdalena','Meta','Nariño','Norte de Santander','Putumayo','Quindío','Risaralda',
   'San Andrés y Providencia','Santander','Sucre','Tolima','Valle del Cauca','Vaupés','Vichada']
-  displayedColumns: string[] = ['name', 'nit', 'telephone', 'email', 'contact', 'departament', 'municipality', 'address'];
+  displayedColumns: string[] = ['id','name','active','accion'];
+  portatil = [{name:'Activo', valor: true}, {name:'Inactivo', valor: false}]
   dataSource: MatTableDataSource<companyUserData>;
   listUser: companyUserData[]=[]
   public form: FormGroup
+  public usersData: any;
+  public registerId: number = 0;
+  public eventsData: any;
+  public customerDetail: any = [];
   response:boolean = false;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,8 +41,16 @@ export class CompanyRegistrationComponent implements OnInit {
   constructor(
     private myFormsBuilder: FormBuilder,
     private companyService: CompanyResgistrationService,
-    private snack: MatSnackBar
-  ) { }
+    private snack: MatSnackBar,
+    private alert: AlertService,
+    private _https: AuthService,
+    private excel: ExcelService,
+    private localStore: LocalstoreService,
+    ) {
+      this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
+      this.usersData = this.localStore.getSuccessLogin();
+      this.getEvents(this.usersData.user.idProyectsClients)
+    }
 
   ngOnInit(): void {
     this.intial()
@@ -49,38 +58,19 @@ export class CompanyRegistrationComponent implements OnInit {
   }
   intial(){
     this.form = this.myFormsBuilder.group({
-      name: [Menssage.empty, Validators.compose([Validators.required])],
-      nit: [Menssage.empty, Validators.compose([Validators.required])],
-      telephone: [Menssage.empty, Validators.compose([Validators.required])],
-      email: [Menssage.empty, Validators.compose([Validators.required, Validators.email])],
-      contact: [Menssage.empty, Validators.compose([Validators.required])],
-      departament: [Menssage.empty, Validators.compose([Validators.required])],
-      municipality: [Menssage.empty, Validators.compose([Validators.required])],
-      address: [Menssage.empty, Validators.compose([Validators.required])]
+      nameEvents: [Menssage.empty, Validators.compose([Validators.required])],
+      active: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      idusers: [this.usersData.user.id, Validators.compose([
+        Validators.required,
+      ])],
+      idProyectsClients: [this.usersData.user.idProyectsClients, Validators.compose([
+        Validators.required,
+      ])],
 
     })
     this.loadUsers()
-  }
-  saveData(){
-    //console.log(this.form);
-    const save: companyUserData={
-      name: this.form.value.name,
-      nit: this.form.value.nit,
-      telephone: this.form.value.telephone,
-      email: this.form.value.email,
-      contact: this.form.value.contact,
-      departament: this.form.value.departament,
-      municipality: this.form.value.municipality,
-      address: this.form.value.address
-    }
-    console.log('Datos optenidos por svaeData ↓');
-    console.log(save)
-    this.snack.open('Registro Completado', 'Operacion Exitosa',{
-      duration: 2000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-    })
-    //alert('ingresa un nuevo usuario')
   }
   loadUsers(){
     this.listUser = this.companyService.getUser()
@@ -94,5 +84,100 @@ export class CompanyRegistrationComponent implements OnInit {
       verticalPosition: 'bottom'
     })
   }
+  getEvents(item: number){
+    this.alert.loading();
+      this.companyService.getCustomerCompany(item).then((resulta: any)=>{
+            this.alert.messagefin(); 
+            this.eventsData = resulta
+            this.listUser = []
+            resulta.forEach((element: any) => {
+              this.listUser.push({
+                    id:element.id,
+                    name: element.nameEvents,
+                    active: element.active,
+              },);
+            });
+          this.dataSource = new MatTableDataSource(this.listUser);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+      }).catch((err: any)=>{
+        console.log(err.error)
+        if (err.error.message != undefined) {
+          this._https.logout()
+        }
+        this.alert.error(Menssage.error, Menssage.server);
+      });
+  }
 
+  cleanReset(){
+    this.form.reset();
+    this.form.controls['idusers'].setValue(this.usersData.user.id);  
+    this.form.controls['idProyectsClients'].setValue(this.usersData.user.idProyectsClients);
+    this.getEvents(this.usersData.user.idProyectsClients);
+  }
+  valid(item: any): boolean{
+    let valid = true
+    if (item.nameEvents === Menssage.empty) {
+      this.alert.error(Menssage.error, Menssage.name);
+      valid = false
+    }
+    if (item.active === Menssage.empty) {
+      this.alert.error(Menssage.error, Menssage.surname);
+      valid = false
+    }
+    
+    if (item.idusers === Menssage.empty) {
+      this.alert.error(Menssage.error, Menssage.idusers);
+      valid = false
+    }
+    if (item.idProyectsClients === Menssage.empty) {
+      this.alert.error(Menssage.error, Menssage.idProyectsClients);
+      valid = false
+    }
+    
+    return valid
+  }
+
+  routeList(item: any){
+    this.registerId = item.id;
+    this.form.controls['nameEvents'].setValue(item.nameEvents);  
+    this.form.controls['active'].setValue(item.active);  
+  }
+  saveData(item: any){
+    if (this.registerId == 0) {
+      this.createData(item);
+    } else {
+      this.updateData(item);
+    }
+  }
+
+  createData(item: any){
+    if (this.valid(item)) {
+      this.alert.loading();
+      this.companyService.customerCompany(item).then((resulta: any)=>{
+        this.cleanReset()
+      }).catch((err: any)=>{
+        console.log(err)
+        if (err.error.message != undefined) {
+          this._https.logout()
+        }
+        this.alert.error(Menssage.error, Menssage.server);
+      });
+    }
+  }
+
+  updateData(item: any){
+    if (this.valid(item)) {
+      this.alert.loading();
+      this.companyService.customerCompanyUpdate(this.registerId, item).then((resulta: any)=>{
+        this.cleanReset()
+      }).catch((err: any)=>{
+        console.log(err)
+        if (err.error.message != undefined) {
+          this._https.logout()
+        }
+        this.alert.error(Menssage.error, Menssage.server);
+      });
+    }
+  }
 }

@@ -45,11 +45,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       console.log(this.customerDetail);
       var data =  this.localStore.getItem(Menssage.menu)
       this.menuItemsStore = data == null ? []: data
-      if (this.menuItemsStore.length == 0) {
-          this.getMenu(this.usersData.user.idrol);
-      }else{
-          this.menuItems = this.menuItemsStore.filter(menuItem => menuItem);
-      }
+      this.getMenu(this.usersData.user.idrol);
     }
     ngOnInit() {
         const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');

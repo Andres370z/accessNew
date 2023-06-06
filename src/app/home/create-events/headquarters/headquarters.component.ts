@@ -107,7 +107,7 @@ export class HeadquartersComponent implements OnInit {
         Validators.required,
         Validators.minLength(6)
       ])],
-      idrol: [2, Validators.compose([
+      idrol: [Menssage.idRolAdminClients, Validators.compose([
         Validators.required,
       ])],
       idProyectsClients: [this.idNumber, Validators.compose([

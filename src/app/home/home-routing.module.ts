@@ -11,19 +11,22 @@ const routes: Routes = [
     pathMatch: 'full'
   }, 
   {
-    path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    path: 'analysisOfData',
+    loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardModule),
   },
-  { path: 'createClients', loadChildren: () => import('./create-events/create-events.module').then(m => m.CreateEventsModule) },
+  {
+    path: 'createClients',
+    loadChildren: () => import('./create-events/create-events.module').then(m => m.CreateEventsModule)
+  },
   { path: 'createGuest', loadChildren: () => import('./create-guest/create-guest.module').then(m => m.CreateGuestModule) },
   { path: 'assignInstitution', loadChildren: () => import('./asign-event/asign-event.module').then(m => m.AsignEventModule) },
-  { path: 'createSupervisor', loadChildren: () => import('./create-agents/create-agents.module').then(m => m.CreateAgentsModule) },
+  { path: 'createUsers', loadChildren: () => import('./create-agents/create-agents.module').then(m => m.CreateAgentsModule) },
   { path: 'createOperator', loadChildren: () => import('./bulk-load/bulk-load.module').then(m => m.BulkLoadModule) },
   { path: 'content', loadChildren: () => import('./content/content.module').then(m => m.ContentModule) },
   { path: 'uploadImages', loadChildren: () => import('./upload-images/upload-images.module').then(m => m.UploadImagesModule) },
   { path: 'logsUsers', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
   { path: 'listRecordsMade', loadChildren: () => import('./list-assign/list-assign.module').then(m => m.ListAssignModule) },
-  { path: 'purchaseOperators', loadChildren: () => import('./purchase-operators/purchase-operators.module').then(m => m.PurchaseOperatorsModule) },
+  { path: 'analysisOfDataList', loadChildren: () => import('./purchase-operators/purchase-operators.module').then(m => m.PurchaseOperatorsModule) },
   { path: 'managementReports', loadChildren: () => import('./audit/management-reports/management-reports.module').then(m => m.ManagementReportsModule) },
   { path: 'improvementPlans', loadChildren: () => import('./audit/improvement-plans/improvement-plans.module').then(m => m.ImprovementPlansModule) },
   { path: 'balanceRations', loadChildren: () => import('./audit/balance-rations/balance-rations.module').then(m => m.BalanceRationsModule) },
@@ -39,7 +42,8 @@ const routes: Routes = [
   //Ruta para el punto de acceso
   {path: 'accessPoint', loadChildren: () => import ('./access-point/access-point.module').then(m=>m.AccessPointModule)},
   //Ruta para los datos del vehiculo registrado
-  {path: 'vehicleRegistration', loadChildren: ()=>import('./vehicle-data/vehicle-data.module').then(m=> m.VehicleDataModule)}
+  {path: 'vehicleRegistration', loadChildren: ()=>import('./vehicle-data/vehicle-data.module').then(m=> m.VehicleDataModule)},
+
 ];
 
 @NgModule({

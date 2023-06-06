@@ -8,15 +8,8 @@ import { LocalstoreService } from 'src/app/service/localstore.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-export interface UserData {
-  id:number,
-  municipality: string,
-  institutions: string,
-  direction: string,
-  rector: string,
-  telephone: string,
-  email: string
-}
+import { logsUsers } from 'src/app/interfaces/logsUsers';
+import { ExcelService } from 'src/app/service/excel.service';
 
 @Component({
   selector: 'app-report',
@@ -24,12 +17,17 @@ export interface UserData {
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
+  public displayedColumns: string[] = ['id','name','description','table','ip','created_at'];
+  dataSource: MatTableDataSource<logsUsers>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   public form: FormGroup;
   public usersData: any;
   public eventList: any = [];
+  public eventListDownload: any = [];
   public calendarVisible = false;
-  public eventsData: any=[];
+  public eventsData: logsUsers[]=[];
   public customerDetail: any = [];
   public images:any = [];
   public eventItems: any = [];
@@ -37,23 +35,18 @@ export class ReportComponent implements OnInit {
   public eventItemsSuper: any = [];
   public selectItems: any;
   private needRefresh = false;
-  public displayedColumns: string[] = ['id',   'name', 'surname', 'table',  'description', 'data', 'ip', 'information', 'created_at', 'accion' ];
-  public dataSource: MatTableDataSource<UserData>;
+  
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   constructor(
     private localStore: LocalstoreService,
+    private excel: ExcelService,
     private _https: AuthService,
     private router: Router,
     public formBuilder: FormBuilder,
     private alert: AlertService) { 
     this.usersData = this.localStore.getSuccessLogin();
     this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
-    this.getEvents();
-    //this.getEventsInst(this.usersData.user.idProyectsClients);
-    //this.getSupervisor(this.usersData.user.idProyectsClients);
-    //this.getEventImg(this.usersData.user.idProyectsClients, '')
+    this.getEvents(this.usersData.user.idProyectsClients);
   }
 
   ngOnInit(): void {
@@ -80,6 +73,7 @@ export class ReportComponent implements OnInit {
         Validators.required,
       ])],
     });
+    this.loadUser();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -89,14 +83,18 @@ export class ReportComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  getEvents(){
+  loadUser(){
+    this.eventsData = this._https.getData()
+    this.dataSource = new MatTableDataSource(this.eventsData)
+  }
+  getEvents(item: number){
     this.alert.loading();
-      this._https.getAssignUserAudit().then((resulta: any)=>{
+      this._https.getAssignUserAudit(item).then((resulta: any)=>{
           console.log(resulta); 
             this.eventItems = resulta
             this.alert.messagefin(); 
             this.eventsData = []
+            this.eventListDownload = resulta
             resulta.forEach((element: any) => {
               this.eventsData.push({
                     id:element.id,
@@ -147,29 +145,7 @@ export class ReportComponent implements OnInit {
     
     return valid
 }
-  getEventImg(item: number, itenEvents:string){
-      this._https.getEventImg(item, itenEvents).then((resulta: any)=>{
-          console.log(resulta); 
-          let count = 1;
-          this.eventsData = []
-          resulta.forEach(element => {
-            this.eventsData.push({
-                  id:element.id,
-                  nameEvent: element.nameEvent,
-                  companyNameEvent: element.companyNameEvent,
-                  nitEvent: element.nitEvent,
-                  dateEvent: element.dateEvent,
-                  imgEvent: element.imgEvent
-            },);
-          });
-          this.dataSource = new MatTableDataSource(this.eventsData);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-      }).catch((err: any)=>{
-        console.log(err)
-        this.alert.error(Menssage.error, Menssage.server);
-      });
-  }
+
   getFileDetails(event: number){
       console.log(this.form.controls['idEducationalInstitutions'].value)
       this.getEventList(event, this.usersData.user.idProyectsClients);
@@ -178,7 +154,6 @@ export class ReportComponent implements OnInit {
     this.alert.loading();
     this._https.deleteRegisterImageEvent(id).then((resulta: any)=>{
       this.alert.success(Menssage.exito, Menssage.successDelete);
-      this.getEventImg(this.usersData.user.idProyectsClients, '')
     }).catch((err: any)=>{
       console.log(err)
       this.alert.error(Menssage.error, Menssage.server);
@@ -196,7 +171,6 @@ export class ReportComponent implements OnInit {
       }
       this._https.resgisterImageEvents(data).then((resulta: any)=>{
         this.alert.success(Menssage.exito, Menssage.successDelete);
-        this.getEventImg(this.usersData.user.idProyectsClients, '')
         this.images = []
       }).catch((err: any)=>{
         console.log(err.error)
@@ -228,7 +202,7 @@ export class ReportComponent implements OnInit {
 
   cleanReset(){
     this.form.reset(); 
-    this.getEvents();
+    this.getEvents(this.usersData.user.idProyectsClients);
   }
 
   routeList(id:string){
@@ -288,4 +262,8 @@ export class ReportComponent implements OnInit {
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6;
   };
+
+  download(){
+    this.excel.exportAsExcelFile(this.eventListDownload, "LogsUsers");
+  }
 }

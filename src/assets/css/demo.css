@@ -20,6 +20,23 @@ h6,
     width: 150px;
 }
 
+.modal-dialog .modal-header .modal-title {
+    text-align: center;
+    width: 100%;
+    font-size: 21px !important;
+    font-weight: bold!important;
+}
+
+.modal .modal-dialog {
+    margin-top: 20%!important;
+}
+
+.form-select {
+    width: 100%;
+    font-size: 15px !important;
+    font-weight: bold!important;
+}
+
 .item-exit {
     position: relative;
     bottom: 46px;

@@ -6,9 +6,6 @@
     <div class="main-panel">
         <app-navbar-cmp *ngIf="menuItems.length != 0" [menuItems]="menuItems"></app-navbar-cmp>
         <router-outlet></router-outlet>
-        <div *ngIf="!isMap()">
-            <app-footer-cmp></app-footer-cmp>
-        </div>
     </div>
     <app-fixedplugin></app-fixedplugin>
 </div>

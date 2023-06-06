@@ -5,8 +5,9 @@ import { Menssage, RoutersLink } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
+import { PointAccessService } from 'src/app/service/point-access.service';
 import { environment } from 'src/environments/environment';
-
+import Swal from 'sweetalert2'
 declare var $: any;
 declare var particlesJS: any;
 @Component({
@@ -18,10 +19,14 @@ export class LoginClientComponent implements OnInit, OnDestroy {
     test: Date = new Date();
     public textAlert: any;
     public customerDetail: any = [];
+    public selectList: number = 0;
+    public dateUsers: any;
     public toggleButton: any;
     public sidebarVisible: boolean;
     public nativeElement: Node;
     public form: FormGroup;
+    public cityForm:any;
+    public formAccess: FormGroup;
     public api = environment.img
     constructor(private element: ElementRef,
       private activatedRoute: ActivatedRoute,
@@ -29,6 +34,7 @@ export class LoginClientComponent implements OnInit, OnDestroy {
         public formBuilder: FormBuilder,
         private _https:AuthService,
         private alert: AlertService,
+        private accesspointService: PointAccessService,
         private localStore: LocalstoreService) {
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -40,7 +46,9 @@ export class LoginClientComponent implements OnInit, OnDestroy {
             console.log(token)
             this.getCustomerDetail(token)
           } else {
+            token = "ErLCUZBtopFI7hfx4ShACW8OROgHhL2h6eh4RVKQas02QaMn5w";
             this.customerDetail = [];
+            this.getCustomerDetail(token)
           }
         })
     }
@@ -59,22 +67,29 @@ export class LoginClientComponent implements OnInit, OnDestroy {
             card.classList.remove('card-hidden');
         }, 700);
         this.initial();
+        let reload =  this.localStore.getItem("reload")
+        if (reload != "reload") {
+          this.localStore.setItem("reload", "reload")
+          window.location.reload()
+        }
+        
     }
     initial(){
         /* if (localStorage.getItem('token') !== null) {
           this.router.navigate([RoutersLink.home]);
         } */
         this.form = this.formBuilder.group({
-          email: ["admin@electrocnis.com", Validators.compose([
+          email: ["janes_saenz@softsaenz.com", Validators.compose([
             Validators.required,
             Validators.pattern(Menssage.valiEmail),
             Validators.minLength(5)
           ])],
-          password: ["Electrocnis*", Validators.compose([
+          password: ["Jasapu21*", Validators.compose([
             Validators.required,
             Validators.minLength(6)
           ])],
         });
+        
     }
 
     sidebarToggle() {
@@ -104,6 +119,7 @@ export class LoginClientComponent implements OnInit, OnDestroy {
             this._https.getCustomerDetail(item).then((resulta: any)=>{
                 console.log(resulta); 
                   this.customerDetail = resulta
+                  this.getAccessPoint(this.customerDetail.idProyectsClients);
                   this.localStore.setItem(resulta, Menssage.customerDetail)
                   this.alert.messagefin();
             }).catch((err: any)=>{
@@ -112,18 +128,33 @@ export class LoginClientComponent implements OnInit, OnDestroy {
             });
     }
 
+    getAccessPoint(item: number){
+      this.alert.loading();
+      this.accesspointService.getAccessPoint(item).then((resulta: any)=>{
+          console.log(resulta); 
+            this.cityForm = resulta
+            this.alert.messagefin();
+      }).catch((err: any)=>{
+        console.log(err)
+        this.alert.error(Menssage.error, Menssage.server);
+      });
+}
+
     onSubmit(item: any){
       if (this.valid(item)) {
           this.alert.loading();
           this._https.login(item).then((resulta: any)=>{
             if (resulta) {
-              console.log(resulta); 
+               if (resulta.user.idrol == Menssage.idRolAdminClientsVigilant) {
+                  this.option(resulta);
+               }else{
                 this.localStore.setSuccessLogin(resulta)
+                this.localStore.removeEnd("reload")
                 this.router.navigate([RoutersLink.content]);
                 this.alert.success(Menssage.exito, Menssage.success);
-                //this.alert.messagefin();
+                this.alert.messagefin();
                 this.form.reset();
-              
+               }
             } else {
               this.alert.error(Menssage.error, Menssage.server);
             }
@@ -151,5 +182,49 @@ export class LoginClientComponent implements OnInit, OnDestroy {
           valid = false
         }
         return valid
+    }
+
+    option(item: any){
+      this.dateUsers = item;
+      $('#exampleModal').modal('show')
+      this.alert.messagefin();
+    }
+
+    saveAccess(){
+      const date = new Date()
+      const dateEnd = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
+      const timeEnd = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+      const data = {
+        dateEntered: dateEnd,
+        timeEntered: timeEnd,
+        idusers : this.dateUsers.user.id,
+        idAccessPoints : this.selectList,
+        idProyectsClients : this.dateUsers.user.idProyectsClients
+      }
+      this.alert.loading();
+            this._https.createAccessPointRecord(data).then((resulta: any)=>{
+              if (resulta) {
+                console.log(resulta); 
+                  this.localStore.setSuccessLogin(this.dateUsers)
+                  this.localStore.removeEnd("reload")
+                  this.router.navigate([RoutersLink.content]);
+                  this.alert.success(Menssage.exito, Menssage.success);
+                  this.localStore.setItem(resulta, Menssage.acccess)
+                  this.alert.messagefin();
+                  this.form.reset();
+                
+              } else {
+                this.alert.error(Menssage.error, Menssage.server);
+              }
+            }).catch((err: any)=>{
+              console.log(err)
+              this.alert.error(Menssage.error, Menssage.server);
+            });
+    }
+
+    exitAcces(){
+      this.alert.error(Menssage.error, Menssage.serverNull);
+      this.localStore.clear();
+      this.localStore.setItem(this.customerDetail, Menssage.customerDetail)
     }
 }

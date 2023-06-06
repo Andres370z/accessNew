@@ -92,7 +92,7 @@ export class AsignEventComponent implements OnInit {
 
   getEvents(item: number){
     this.alert.loading();
-      this._https.getAssignUserAudit().then((resulta: any)=>{
+      this._https.getAssignUserAudit(item).then((resulta: any)=>{
           console.log(resulta); 
             this.eventItems = resulta
             this.alert.messagefin(); 

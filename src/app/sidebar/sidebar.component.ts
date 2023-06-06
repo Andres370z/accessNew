@@ -4,6 +4,9 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import { Menssage, RoutersLink } from '../models/router';
 import { LocalstoreService } from '../service/localstore.service';
 import { environment } from 'src/environments/environment';
+import { PointAccessService } from '../service/point-access.service';
+import { AlertService } from '../service/alert.service';
+import { AuthService } from '../service/auth.service';
 
 declare const $: any;
 
@@ -40,6 +43,9 @@ export class SidebarComponent implements OnInit {
     constructor(
         private localStore: LocalstoreService,
         private router: Router,
+        private _https:AuthService,
+        private alert: AlertService,
+        private accesspointService: PointAccessService,
     ) {
         this.usersData = this.localStore.getSuccessLogin();
         this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
@@ -70,8 +76,41 @@ export class SidebarComponent implements OnInit {
         return bool;
     }
     logout(){
-        this.localStore.clear();
-        this.router.navigate([RoutersLink.login]);
-        this.menuItemsStore = []
-    } 
+        if (this.usersData.user.idrol == Menssage.idRolAdminClientsVigilant) {
+            const date = new Date()
+            const dateEnd = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
+            const timeEnd = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let dataEnd = this.localStore.getItem(Menssage.acccess)
+            const data = {
+                dateExit: dateEnd,
+                timeExit: timeEnd,
+            }
+            this.alert.loading();
+              this._https.accessPointRecordUpdate(dataEnd.id, data).then((resulta: any)=>{
+                if (resulta) {
+                  this.localStore.clear();
+                  if (this.usersData.user.idrol == Menssage.idRolAdmin) {
+                      this.router.navigate([RoutersLink.login]);
+                  } else {
+                      this.router.navigate([RoutersLink.loginClients+this.customerDetail.api_token]);
+                  }
+                  this.menuItemsStore = []
+                } else {
+                  this.alert.error(Menssage.error, Menssage.server);
+                }
+              }).catch((err: any)=>{
+                this.alert.error(Menssage.error, Menssage.server);
+              });
+       
+    
+        } else {
+            if (this.usersData.user.idrol == Menssage.idRolAdmin) {
+                this.router.navigate([RoutersLink.login]);
+            } else {
+                this.router.navigate([RoutersLink.loginClients+this.customerDetail.api_token]);
+            }
+            this.menuItemsStore = [] 
+        }
+    }    
+
 }

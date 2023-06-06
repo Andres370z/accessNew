@@ -1,0 +1,99 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Registrar Peaton -->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">widgets</i>
+                        </div>
+                        <h4 class="card-title">Registro de ingreso vehiculo</h4>
+                    </div>
+                    <!-- REGISTRO PEATONAL -->
+                    <div class="card-body" *ngIf="usersDataList.length != 0">
+                        <form class="form" [formGroup]="form">
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="placa" placeholder="No. de placa" autocomplete="off">
+                                        <mat-icon>perm_identity</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="date" placeholder="Fecha de registro" autocomplete="off">
+                                        <mat-icon>face</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="model" placeholder="Modelo" autocomplete="off">
+                                        <mat-icon>face</mat-icon>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccción</mat-label>
+                                        <mat-select formControlName="idOffices">
+                                            <mat-option class="ajust" *ngFor="let item of listOffice" [value]="item.id" [style]="'--background-color:'+customerDetail.color+' !important;'">
+                                                {{item.name}} {{item.floorNumber}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon> place</mat-icon>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="owner" placeholder="Nombre del propietario">
+                                        <mat-icon>computer</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="parkinglot" placeholder="Número de estacionamiento">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="color" placeholder="Color del vehiculo">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="dateEntered" placeholder="Fecha de Entrada" autocomplete="off">
+                                        <mat-icon>calendar_today</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="timeEntered" placeholder="Hora de Entrada" autocomplete="off">
+                                        <mat-icon>alarm_add</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="dateExit" placeholder="Fecha de Salida" autocomplete="off">
+                                        <mat-icon>calendar_today</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="timeExit" placeholder="Hora de Salida" autocomplete="off">
+                                        <mat-icon>alarm_add</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <!-- HASTA AQUI -->
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 card-footer ">
+                        <button mat-mini-fab class="btn btn-fill btn-rose" [style]="'background-color: '+customerDetail.color+''" (click)="routeListView()">Volver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

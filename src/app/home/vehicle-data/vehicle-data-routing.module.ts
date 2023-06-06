@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { VehicleDataComponent } from './vehicle-data.component';
 
 const routes: Routes = [
-  {path: '', component: VehicleDataComponent}
+  {path: '', component: VehicleDataComponent},
+  { path: 'infoVehicleDetail/:id', loadChildren: () => import('./info-vehicle-detail/info-vehicle-detail.module').then(m => m.InfoVehicleDetailModule) }
 ];
 
 @NgModule({

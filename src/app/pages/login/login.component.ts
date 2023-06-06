@@ -35,6 +35,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.textAlert = Menssage;
         let token = "ErLCUZBtopFI7hfx4ShACW8OROgHhL2h6eh4RVKQas02QaMn5w";
         this.getCustomerDetail(token)
+        let reload =  this.localStore.getItem("reload")
+        if (reload != "reload") {
+          this.localStore.setItem("reload", "reload")
+          window.location.reload()
+        }
     }
 
     ngOnInit() {
@@ -96,6 +101,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this._https.getCustomerDetail(item).then((resulta: any)=>{
                 console.log(resulta); 
                   this.customerDetail = resulta
+                  this.localStore.removeEnd("reload")
                   this.localStore.setItem(resulta, Menssage.customerDetail)
                   this.alert.messagefin();
             }).catch((err: any)=>{

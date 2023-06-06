@@ -28,4 +28,7 @@ export class LocalstoreService {
   clear(){
     localStorage.clear();
   }
+  removeEnd(data: string){
+    localStorage.removeItem(data)
+  }
 }

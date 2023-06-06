@@ -1,22 +1,33 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { RoutersLink } from '../models/router';
+import { Menssage, RoutersLink } from '../models/router';
 import { AlertService } from './alert.service';
 import { HttpsService } from './https.service';
 import { LocalstoreService } from './localstore.service';
+import { logsUsers } from '../interfaces/logsUsers';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  public usersData: any;
+  public customerDetail: any = [];
 
+  losgUsers: logsUsers[]=[
+    {id:0,name: '', surname: '', description: '', data: '',table: '', ip: '', information: '', created_at:'',}
+  ]
   constructor(
     private registeresquest: HttpsService,
     private route: Router, 
     private localStore: LocalstoreService,
     private alert: AlertService
-  ) { }
-
+  ) { 
+    this.usersData = this.localStore.getSuccessLogin();
+    this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
+  }
+  getData(){
+    return this.losgUsers.slice()
+  }
   create(inform:any){
     const data = {
       businessName: inform.businessName,
@@ -47,6 +58,9 @@ export class AuthService {
   createSupervisor(inform:any){
     return  this.registeresquest.POST(RoutersLink.register, inform)
   }
+  createAccessPointRecord(inform:any){
+    return  this.registeresquest.POST(RoutersLink.accessPointRecord, inform)
+  }
   login(inform:any){
     return  this.registeresquest.POST(RoutersLink.loginApi, inform)
   }
@@ -59,8 +73,15 @@ export class AuthService {
   } 
   cerra(){
     this.alert.messagefin();
-    localStorage.removeItem('token')
-    this.route.navigate(['pages/login']);
+    if (this.usersData.user.idrol == 1) {
+      console.log("uno")
+      localStorage.removeItem('token')
+      this.route.navigate([RoutersLink.login]);
+    } else {
+      console.log("dos")
+      this.route.navigate([RoutersLink.loginClients+this.customerDetail.api_token]);
+      localStorage.removeItem('token')
+    }
   }
 
   getCity(){
@@ -70,10 +91,12 @@ export class AuthService {
     return  this.registeresquest.GET(RoutersLink.operator+item)
   }
 
-  getAssignUserAudit(){
-    return  this.registeresquest.GET(RoutersLink.assignUserAudit)
+  getAssignUserAudit(item: number){
+    return  this.registeresquest.GET(RoutersLink.assignUserAudit+item)
   }
-
+  accessPointRecordUpdate(id: number, inform:any){
+    return  this.registeresquest.PUT(RoutersLink.accessPointRecordUpdate+id, inform)
+  }
   assignUserAuditReady(item: number){
     return  this.registeresquest.GET(RoutersLink.assignUserAuditReady+item)
   }

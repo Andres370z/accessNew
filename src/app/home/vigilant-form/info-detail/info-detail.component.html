@@ -1,0 +1,120 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Registrar Peaton -->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">widgets</i>
+                        </div>
+                        <h4 class="card-title">Registro de ingreso Peatonal</h4>
+                    </div>
+                    <!-- REGISTRO PEATONAL -->
+                    <div class="card-body" *ngIf="usersDataList.length != 0">
+                        <form class="form" [formGroup]="form">
+                            <div class="row">
+                                <div class="col-12 ajust">
+                                    <div class="snapshot">
+                                        <img [src]="api+'img/clientUsers/'+usersDataList.image" [height]="250" [width]="250" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="number" formControlName="identificationCard" placeholder="Número de C.C" autocomplete="off">
+                                        <mat-icon>perm_identity</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="nameOne" placeholder="Nombre del usuario" autocomplete="off">
+                                        <mat-icon>face</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="lastname" placeholder="Apellido del usuario" autocomplete="off">
+                                        <mat-icon>face</mat-icon>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccción</mat-label>
+                                        <mat-select formControlName="idOffices">
+                                            <mat-option class="ajust" *ngFor="let item of listOffice" [value]="item.id" [style]="'--background-color:'+customerDetail.color+' !important;'">
+                                                {{item.name}} {{item.floorNumber}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon> place</mat-icon>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Lleva portátil</mat-label>
+                                        <mat-select formControlName="laptopEntered">
+                                            <mat-option *ngFor="let item of portatil" [value]="item" [style]="'--background-color:'+customerDetail.color+' !important;'">
+                                                {{item}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon>computer</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="marcaSerialEntered" placeholder="Marca Entrada">
+                                        <mat-icon>computer</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Lleva portatil</mat-label>
+                                        <mat-select formControlName="laptopExit">
+                                            <mat-option *ngFor="let item of portatil" [value]="item">
+                                                {{item}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="marcaSerialExit" placeholder="Marca Sallida">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="dateEntered" placeholder="Fecha de Entrada" autocomplete="off">
+                                        <mat-icon>calendar_today</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="timeEntered" placeholder="Hora de Entrada" autocomplete="off">
+                                        <mat-icon>alarm_add</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="dateExit" placeholder="Fecha de Salida" autocomplete="off">
+                                        <mat-icon>calendar_today</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="timeExit" placeholder="Hora de Salida" autocomplete="off">
+                                        <mat-icon>alarm_add</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <!-- HASTA AQUI -->
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 card-footer ">
+                        <button mat-mini-fab class="btn btn-fill btn-rose" [style]="'background-color: '+customerDetail.color+''" (click)="routeListView()">Volver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

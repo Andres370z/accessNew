@@ -1,87 +1,161 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-rose card-header-icon">
-            <div class="card-icon" [style]="'--background-color: orange;'">
-              <i class="material-icons">widgets</i>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">widgets</i>
+                        </div>
+                        <h4 class="card-title">Punto de acceso</h4>
+                    </div>
+                    <!-- FORMULARIO -->
+                    <div class="card-body">
+                        <form class="form" [formGroup]="form" (ngSubmit)="saveData(form.value)">
+                            <div class="row">
+                                <div class="col-4">
+                                    <!--NOMBRE-->
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Nombre</mat-label>
+                                        <input matInput class="form-control" type="text" placeholder="Ingresa el nombre del usuario" formControlName="name" autocomplete="off">
+                                        <mat-icon>person</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <!--Lugar-->
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Lugar</mat-label>
+                                        <input matInput class="form-control" type="text" placeholder="Ingresa el lugar" formControlName="place" autocomplete="off">
+                                        <mat-icon> room</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccción</mat-label>
+                                        <mat-select formControlName="idOffices">
+                                            <mat-option class="ajust" *ngFor="let item of listOffice" [value]="item.id" [style]="'--background-color:'+customerDetail.color+' !important;'">
+                                                {{item.name}} {{item.floorNumber}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon> place</mat-icon>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <button mat-mini-fab class="btn btn-fill btn-rose" type="submit" [disabled]="form.invalid">Realizar Registro</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <h4 class="card-title">Punto de acceso</h4>
-          </div>
-          <!-- FORMULARIO -->
-          <div class="card-body">
-            <form class="form" [formGroup]="form" (ngSubmit)="saveData()">
-              <div class="row">
-                <div class="col-4"> <!--NOMBRE-->
-                  <mat-form-field  class="example-full-width">
-                    <mat-label>Nombre</mat-label>
-                    <input matInput class="form-control" type="text" placeholder="Ingresa el nombre del usuario"
-                      formControlName="name" autocomplete="off">
-                    <mat-icon>person</mat-icon>
-                  </mat-form-field>
+            <div class="col-md-12" *ngIf="responseTwo">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">widgets</i>
+                        </div>
+                        <h4 class="card-title">Editar Punto de acceso</h4>
+                    </div>
+                    <!-- FORMULARIO -->
+                    <div class="card-body">
+                        <form class="form" [formGroup]="formEdit" (ngSubmit)="saveDataEdit(formEdit.value)">
+                            <div class="row">
+                                <div class="col-4">
+                                    <!--NOMBRE-->
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Nombre</mat-label>
+                                        <input matInput class="form-control" type="text" placeholder="Ingresa el nombre del usuario" formControlName="name" autocomplete="off">
+                                        <mat-icon>person</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <!--Lugar-->
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Lugar</mat-label>
+                                        <input matInput class="form-control" type="text" placeholder="Ingresa el lugar" formControlName="place" autocomplete="off">
+                                        <mat-icon> room</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccción</mat-label>
+                                        <mat-select formControlName="idOffices">
+                                            <mat-option class="ajust" *ngFor="let item of listOffice" [value]="item.id" [style]="'--background-color:'+customerDetail.color+' !important;'">
+                                                {{item.name}} {{item.floorNumber}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon> place</mat-icon>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <button mat-mini-fab class="btn btn-fill btn-rose" type="submit" [disabled]="formEdit.invalid">Editar Registro</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="col-4"> <!--Lugar-->
-                  <mat-form-field  class="example-full-width">
-                    <mat-label>Lugar</mat-label>
-                    <input matInput class="form-control" type="text" placeholder="Ingresa el lugar"
-                      formControlName="place" autocomplete="off">
-                    <mat-icon> room</mat-icon>
-                  </mat-form-field>
+            </div>
+            <!-- TABLA DE REGISTROS -->
+            <div class="col-md-12" *ngIf="listUser.length != 0">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">widgets</i>
+                        </div>
+                        <h4 class="card-title">Tabla de Registro</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="dataSource">
+                                <!-- id Column -->
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef> Id </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                                </ng-container>
+
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                </ng-container>
+
+                                <!-- Place Column -->
+                                <ng-container matColumnDef="place">
+                                    <th mat-header-cell *matHeaderCellDef> Lugar </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.place}} </td>
+                                </ng-container>
+
+                                <!-- Fecha de registro Column -->
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                                    <td class="td-actions text-center ajust" mat-cell *matCellDef="let row">
+                                        <!-- <button mat-raised-button type="button" class="btn btn-info">
+                                            <i class="material-icons">person</i>
+                                        </button>-->
+                                        <button mat-raised-button type="button" class="btn btn-success" (click)="routeList(row)">
+                                              <i class="material-icons">edit</i>
+                                          </button>
+
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                                </tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página de registro"></mat-paginator>
+                        </div>
+                        <div class="col-12">
+                            <button mat-raised-button type="submit" class="btn btn-fill btn-rose" [style]="'background-color: '+customerDetail.color+' !important;'" (click)="download()">Descargar Data</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4">
-                  <button mat-mini-fab class="btn btn-fill btn-rose" type="submit" [disabled]="form.invalid">Realizar Registro</button>
-                </div>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
-      <!-- Botones -->
-      <div class="col-md-12">
-        <button class="btn btn-fill btn-rose" (click)="clear()" [disabled]="form.invalid" style="margin: 25px">Ingresar un nuevo registro</button>
-        <button class="btn btn-fill btn-rose" (click)="response=!response">
-          Tabla de registros</button>
-      </div>
-      <!-- TABLA DE REGISTROS -->
-      <div class="col-md-12" *ngIf="response">
-        <div class="card">
-          <div class="card-header card-header-rose card-header-icon">
-            <div class="card-icon" [style]="'--background-color: '">
-              <i class="material-icons">widgets</i>
-            </div>
-            <h4 class="card-title">Tabla de Registro</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table mat-table [dataSource]="dataSource">
-                <!-- id Column -->
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef> Id </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-                </ng-container>
-
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                </ng-container>
-
-                <!-- Place Column -->
-                <ng-container matColumnDef="place">
-                  <th mat-header-cell *matHeaderCellDef> Lugar </th>
-                  <td mat-cell *matCellDef="let element"> {{element.place}} </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
-                aria-label="Seleccionar página de registro"></mat-paginator>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
