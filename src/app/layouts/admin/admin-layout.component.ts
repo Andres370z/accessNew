@@ -171,6 +171,9 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
           
       }).catch((err: any)=>{
         console.log(err)
+        if (err.error.message != undefined) {
+          this._https.logout()
+        }
       });
     }
 }

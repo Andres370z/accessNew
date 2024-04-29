@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var environment = {\n  production: true,\n  api: 'https://apicontrol.tuscomunidades.com/api/auth/',\n  img: 'https://apicontrol.tuscomunidades.com/'\n};","map":null,"metadata":{},"sourceType":"module"}

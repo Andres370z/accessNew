@@ -60,3 +60,16 @@ th.mat-header-cell {
     font-weight: bold!important;
     color: #000!important;
 }
+
+.modal-dialog {
+    max-width: 80% !important;
+}
+
+.btn.btn-success.ajust {
+    width: 30px !important;
+    padding: 5px;
+}
+
+.modal .modal-dialog {
+    margin-top: 10% !important;
+}

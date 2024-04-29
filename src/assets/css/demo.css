@@ -27,8 +27,21 @@ h6,
     font-weight: bold!important;
 }
 
+.modal-dialog {
+    max-width: 80% !important;
+}
+
+.btn.btn-success.ajust {
+    width: 30px !important;
+    padding: 5px;
+}
+
 .modal .modal-dialog {
-    margin-top: 20%!important;
+    margin-top: 10% !important;
+}
+
+.ajust-img {
+    width: 150px;
 }
 
 .form-select {
@@ -205,4 +218,115 @@ h6,
     .wrapper.wrapper-full-page {
         z-index: 1 !important;
     }
+}
+
+table {
+    width: 100%;
+}
+
+.ajust {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.ajust button {
+    width: 23px !important;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    padding: 15px;
+    height: 23px !important;
+    margin: 9px;
+}
+
+.ajust button i {
+    position: absolute !important;
+    display: block !important;
+    top: 4px !important;
+    margin: 0 auto !important;
+    bottom: 0;
+    font-size: 1.3rem !important;
+    margin: 0;
+}
+
+.mat-header-row th {
+    text-align: center;
+}
+
+.gallery-item {
+    margin: 5px;
+    width: 250px;
+}
+
+.gallery-item .img-responsive {
+    width: 250px;
+}
+
+.fc {
+    /* the calendar root */
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.download {
+    padding: 10px;
+    border-radius: 10px;
+    border: 0px;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+.form {
+    width: 100%;
+}
+
+.images {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+.images img {
+    width: 250px;
+}
+
+.listImg {
+    width: 250px;
+}
+
+table {
+    width: 100%;
+}
+
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+    padding-left: 0px!important;
+}
+
+th.mat-header-cell {
+    text-align: center!important;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+    padding-right: 0px!important;
+}
+
+td.mat-cell {
+    text-align: center!important;
+}
+
+th.mat-header-cell {
+    font-weight: bold!important;
+    color: #000!important;
 }

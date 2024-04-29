@@ -8,6 +8,7 @@ import { LocalstoreService } from 'src/app/service/localstore.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import Swal from 'sweetalert2';
 export interface UserData {
   id:number,
   municipality: string,
@@ -99,12 +100,13 @@ export class CreateEventsComponent implements OnInit {
             this.eventsData = []
             resulta.forEach((element: any) => {
               this.eventsData.push({
-                    id:element.id,
+                    id: element.id,
                     name: element.nameProjectsClients,
                     direction: element.addressProjectsClients,
                     telephone: element.telephoneProjectsClients,
                     identification: element.identificationCardProjectsClients,
                     email: element.emailProjectsClients,
+                    idProyectsClients: element.id,
                     type: element.userMaster,
               },);
             });
@@ -202,17 +204,39 @@ export class CreateEventsComponent implements OnInit {
         };
         this.form.controls['imgInstitutions'].setValue(file);  
   }
-  deleteList(id:number){
+  deleteList(id:any){
+    Swal.fire({
+      title: 'Estas seguro de suspender este cliente',
+      icon: 'info',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Si',
+      denyButtonText: 'No',
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteFull(id);
+      } else if (result.isDenied) {
+        this.alert.error(Menssage.error, "Cancelo la suspención del cliente");
+      }
+    })
+    
+  }
+  deleteFull(id:any){
     this.alert.loading();
-    this._https.deleteRegisterImageEvent(id).then((resulta: any)=>{
+    this._https.updateUsersClient(id).then((resulta: any)=>{
       this.alert.success(Menssage.exito, Menssage.successDelete);
-      this.getEventImg(this.usersData.user.idProyectsClients, '')
+      this.getEvents(this.usersData.user.idProyectsClients);
     }).catch((err: any)=>{
       console.log(err)
       this.alert.error(Menssage.error, Menssage.server);
     });
   }
-
   resgisterImageEvents(){
     if (this.images.length != 0) {
       this.alert.loading();

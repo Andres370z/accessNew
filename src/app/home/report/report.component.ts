@@ -10,20 +10,21 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { logsUsers } from 'src/app/interfaces/logsUsers';
 import { ExcelService } from 'src/app/service/excel.service';
-
+declare var $: any;
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
-  public displayedColumns: string[] = ['id','name','description','table','ip','created_at'];
+  public displayedColumns: string[] = ['id','name','description','table','ip','created_at', 'action'];
   dataSource: MatTableDataSource<logsUsers>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public form: FormGroup;
   public usersData: any;
+  public dataList: any;
   public eventList: any = [];
   public eventListDownload: any = [];
   public calendarVisible = false;
@@ -101,7 +102,7 @@ export class ReportComponent implements OnInit {
                     name: element.name,
                     surname: element.surname,
                     description: element.description,
-                    data: element.data,
+                    data: JSON.parse(element.data),
                     table: element.table,
                     ip: element.ip,
                     information: element.information,
@@ -205,12 +206,13 @@ export class ReportComponent implements OnInit {
     this.getEvents(this.usersData.user.idProyectsClients);
   }
 
-  routeList(id:string){
-    var code = btoa(id)
-    this.router.navigate(['/home/createInstitution/headquarters/'+code]);
-    
+  routeList(item:any){
+    this.dataList = item;
+    $('#exampleModal').modal('show')
   }
-
+  cerrarModal(){
+    $('#exampleModal').modal('hide')
+  }
   getEventList(item: number, idProyect: number){
     this.alert.loading();
       this._https.getEventList(item).then((resulta: any)=>{

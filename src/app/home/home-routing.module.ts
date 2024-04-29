@@ -43,6 +43,8 @@ const routes: Routes = [
   {path: 'accessPoint', loadChildren: () => import ('./access-point/access-point.module').then(m=>m.AccessPointModule)},
   //Ruta para los datos del vehiculo registrado
   {path: 'vehicleRegistration', loadChildren: ()=>import('./vehicle-data/vehicle-data.module').then(m=> m.VehicleDataModule)},
+  { path: 'logBooks', loadChildren: () => import('./log-books/log-books.module').then(m => m.LogBooksModule) },
+  { path: 'closingMinute', loadChildren: () => import('./closing-minute/closing-minute.module').then(m => m.ClosingMinuteModule) },
 
 ];
 

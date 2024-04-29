@@ -8,6 +8,9 @@ import { LocalstoreService } from 'src/app/service/localstore.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { CreateAgentsService } from 'src/app/service/create-agents.service';
+import { environment } from 'src/environments/environment';
+declare var $: any;
 export interface UserData {
   id:number,
   municipality: string,
@@ -26,6 +29,7 @@ export class HeadquartersComponent implements OnInit {
 
   public form: FormGroup;
   public formCustomer: FormGroup;
+  public formEdit: FormGroup;
   public usersData: any;
   public eventList: any = [];
   public calendarVisible = false;
@@ -37,6 +41,7 @@ export class HeadquartersComponent implements OnInit {
   public selectItems: any;
   public idNumber: number;
   public custumerList: any;
+  public img: string = environment.img;
   private needRefresh = false;
   public displayedColumns: string[] = ['id',  'name',  'surname', 'telephone', 'identificationCard','email', 'accion' ];
   public displayedColumnsList: string[] = ['id',  'color',  'title', 'direction','imgLogo', 'api_token', 'accion' ];
@@ -45,22 +50,25 @@ export class HeadquartersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+  public href: string = "";
   constructor(
     private localStore: LocalstoreService,
     private _https: AuthService,
+    private https: CreateAgentsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public formBuilder: FormBuilder,
     private alert: AlertService) { 
     this.usersData = this.localStore.getSuccessLogin();
     this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
-    
+    this.href = window.location.origin;
     //this.getEventImg(this.usersData.user.idProyectsClients, '')
     this.activatedRoute.paramMap.subscribe((parametros: ParamMap) => {
       let token = parametros.get("id");
+      console.log(token)
       if (token != null) {
         this.idNumber = parseInt(this.alert.convertTextDecrypt(token))
+        console.log(this.idNumber)
         this.getEvents(this.idNumber);
         this.getListCustomer(this.idNumber);
       } 
@@ -114,6 +122,48 @@ export class HeadquartersComponent implements OnInit {
         Validators.required,
       ])],
     });
+    this.formEdit = this.formBuilder.group({
+      name: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      surname: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      telephone: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      identificationCard: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      longitud: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      latitud: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      email: [Menssage.empty, Validators.compose([
+        Validators.required,
+        Validators.pattern(Menssage.valiEmail),
+        Validators.minLength(5)
+      ])],
+      password: [Menssage.empty, Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ])],
+      passwordVerifi: [Menssage.empty, Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ])],
+      id: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      idrol: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
+      idProyectsClients: [this.usersData.user.idProyectsClients, Validators.compose([
+        Validators.required,
+      ])],
+    });
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -158,12 +208,16 @@ export class HeadquartersComponent implements OnInit {
             this.eventsData = []
             resulta.forEach((element: any) => {
               this.eventsData.push({
-                id:element.id,
+                id: element.id,
                 name: element.name,
                 surname: element.surname,
                 telephone: element.telephone,
                 identificationCard: element.identificationCard,
-                email: element.email
+                email: element.email,
+                idProyectsClients: element.idProyectsClients,
+                idrol: element.idrol,
+                latitud: element.latitud,
+                longitud: element.longitud
               },);
             });
           this.dataSource = new MatTableDataSource(this.eventsData);
@@ -344,7 +398,20 @@ export class HeadquartersComponent implements OnInit {
         });
     }
   }
-
+  onSubmitEdit(item: any){
+    console.log(item)
+    if (this.valid(item)) {
+        this.alert.loading();
+        this.https.editAgents(item).then((resulta: any)=>{
+          this.alert.messagefin()
+            this.cerrarModal();
+        }).catch((err: any)=>{
+          console.log(err)
+          
+          this.alert.error(Menssage.error, Menssage.server);
+        });
+    }
+  }
   validCustomer(item: any): boolean{
     let valid = true
     if (item.color === Menssage.empty) {
@@ -391,5 +458,21 @@ export class HeadquartersComponent implements OnInit {
         Validators.required,
       ])],
     });
+  }
+  editUsers(item:any){
+    this.formEdit.controls['name'].setValue(item.name); 
+    this.formEdit.controls['surname'].setValue(item.surname); 
+    this.formEdit.controls['telephone'].setValue(item.telephone); 
+    this.formEdit.controls['identificationCard'].setValue(item.identificationCard); 
+    this.formEdit.controls['latitud'].setValue(item.latitud); 
+    this.formEdit.controls['longitud'].setValue(item.longitud); 
+    this.formEdit.controls['email'].setValue(item.email);
+    this.formEdit.controls['idrol'].setValue(item.idrol); 
+    this.formEdit.controls['id'].setValue(item.id); 
+    this.formEdit.controls['idProyectsClients'].setValue(item.idProyectsClients); 
+    $('#exampleModal').modal('show')
+  }
+  cerrarModal(){
+    $('#exampleModal').modal('hide')
   }
 }

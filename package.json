@@ -34,6 +34,7 @@
         "@fullcalendar/core": "^6.0.2",
         "@fullcalendar/daygrid": "^6.0.2",
         "@fullcalendar/interaction": "^6.0.2",
+        "@ngodings/ngx-whatsapp": "^15.0.9",
         "ajv": "8.10.0",
         "angular-calendar": "0.29.0",
         "angular-particle-updated": "^1.0.4-1",

@@ -6,4 +6,8 @@ export interface userData {
     telephone: string,
     identificationCard: string,
     email: string,
+    idrol:number,
+    idProyectsClients:number,
+    latitud: number,
+    longitud: number
 }

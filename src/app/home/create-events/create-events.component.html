@@ -14,38 +14,38 @@
                             <div class="row">
                                 <div class="col-4">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput class="form-control" type="text" formControlName="nameProjectsClients" placeholder="Nombre del cliente"/>
+                                        <input matInput class="form-control" type="text" formControlName="nameProjectsClients" placeholder="Nombre del cliente" />
                                     </mat-form-field>
                                 </div>
                                 <div class="col-4">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput class="form-control" type="text" formControlName="addressProjectsClients" placeholder="Dirección del cliente"/>
+                                        <input matInput class="form-control" type="text" formControlName="addressProjectsClients" placeholder="Dirección del cliente" />
                                     </mat-form-field>
                                 </div>
                                 <div class="col-4">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput class="form-control" type="text" formControlName="identificationCardProjectsClients" placeholder="No. de identidad cliente"/>
+                                        <input matInput class="form-control" type="text" formControlName="identificationCardProjectsClients" placeholder="No. de identidad cliente" />
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-4">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput class="form-control" type="text" formControlName="telephoneProjectsClients" placeholder="Número de teléfono"/>
+                                        <input matInput class="form-control" type="text" formControlName="telephoneProjectsClients" placeholder="Número de teléfono" />
                                     </mat-form-field>
                                 </div>
                                 <div class="col-4">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput class="form-control" type="text" formControlName="emailProjectsClients" placeholder="Correo"/>
+                                        <input matInput class="form-control" type="text" formControlName="emailProjectsClients" placeholder="Correo" />
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="col-12 card-footer ">
-                                <button mat-raised-button type="submit" class="btn btn-fill btn-rose" [style]="'background-color: '+customerDetail.color+' !important;'" >Crear Cliente</button>
+                                <button mat-raised-button type="submit" class="btn btn-fill btn-rose" [style]="'background-color: '+customerDetail.color+' !important;'">Crear Cliente</button>
                             </div>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="col-md-12" *ngIf="eventsData.length != 0">
@@ -99,10 +99,17 @@
                                     <td mat-cell *matCellDef="let row"> {{row.email}} </td>
                                 </ng-container>
 
-                                 <!-- Nombres Column -->
-                                 <ng-container matColumnDef="type">
+                                <!-- Nombres Column -->
+                                <ng-container matColumnDef="type">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de cliente</th>
-                                    <td mat-cell *matCellDef="let row"> {{row.type}} </td>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button *ngIf="row.type == 1" mat-raised-button type="button" class="btn btn-success" (click)="routeList(row.id)">
+                                            Administrador
+                                        </button>
+                                        <button *ngIf="row.type == 0" (click)="deleteList(row)" mat-raised-button type="button" class="btn btn-info">
+                                            Cliente
+                                        </button>
+                                    </td>
                                 </ng-container>
 
                                 <!-- Fecha de registro Column -->
@@ -112,10 +119,10 @@
                                         <!-- <button mat-raised-button type="button" class="btn btn-info">
                                               <i class="material-icons">person</i>
                                           </button>-->
-                                            <button mat-raised-button type="button" class="btn btn-success" (click)="routeList(row.id)">
+                                        <button mat-raised-button type="button" class="btn btn-success" (click)="routeList(row.id)">
                                                 <i class="material-icons">edit</i>
                                             </button>
-                                        <button *ngIf="usersData.user.idrol == 1" (click)="deleteList(row.id)" mat-raised-button type="button" class="btn btn-danger">
+                                        <button *ngIf="usersData.user.idrol == 1" (click)="deleteList(row)" mat-raised-button type="button" class="btn btn-danger">
                                               <i class="material-icons">close</i>
                                           </button>
                                     </td>

@@ -34,8 +34,8 @@
                                 </div>
                             </div>
                             <div class="col-12 card-footer ">
-                                <button mat-mini-fab type="submit" [disabled]="form.invalid" class="btn btn-fill btn-rose">
-                                  <ng-container *ngIf="registerId; else elseTemplate">
+                                <button mat-mini-fab type="submit" [disabled]="form.invalid" class="btn btn-fill btn-rose" [style]="'background-color:'+customerDetail.color+' !important;'">
+                                  <ng-container *ngIf="registerId == 0; else elseTemplate">
                                     Realizar registro
                                   </ng-container>
                                   <ng-template #elseTemplate>

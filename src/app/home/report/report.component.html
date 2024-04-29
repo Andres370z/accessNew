@@ -53,6 +53,15 @@
                                     <td mat-cell *matCellDef="let element"> {{element.created_at | date:'yyyy-MM-dd HH:mm:ss-SS'}} </td>
                                 </ng-container>
 
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Ver data</th>
+                                    <td mat-cell *matCellDef="let element" style="width: 50px;">
+                                        <button mat-raised-button type="button" class="btn btn-success ajust" (click)="routeList(element)">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </td>
+                                </ng-container>
+
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
@@ -67,6 +76,27 @@
                     <div class="col-12">
                         <button mat-raised-button type="submit" class="btn btn-fill btn-rose" [style]="'background-color: '+customerDetail.color+' !important;'" (click)="download()">Descargar Data</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Ejecución</h2>
+                <button type="button" class="close" (click)="cerrarModal()" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="ajust-content" *ngIf="dataList">
+                    <h1><strong>Nombre: </strong> {{dataList.name }}</h1>
+                    <p><strong>Sección: </strong> {{dataList.description}}</p>
+                    <p><strong>Ejecución: </strong> </p>
+                    <pre>{{dataList.data | json }}</pre>
                 </div>
             </div>
         </div>

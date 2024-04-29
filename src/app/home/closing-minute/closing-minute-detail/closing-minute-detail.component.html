@@ -1,0 +1,108 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon card-header-rose">
+                        <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                            <i class="material-icons">grid_on</i>
+                        </div>
+                        <h4 class="card-title ">Listado de tareas realizadas</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12" *ngIf="listUser.length != 0">
+                            <div class="card">
+                                <div class="card-header card-header-rose card-header-icon">
+                                    <div class="card-icon" [style]="'--background-color: '+customerDetail.color+';'">
+                                        <i class="material-icons">note_add</i>
+                                    </div>
+                                    <h4 class="card-title">Tabla de Registro</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <h1>Inicidentes</h1>
+                                        <table mat-table [dataSource]="displayedColumnsCompany">
+                                            <!-- Name Column -->
+                                            <ng-container matColumnDef="id">
+                                                <th mat-header-cell *matHeaderCellDef>Id</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                                            </ng-container>
+                                            <!-- Name Column -->
+                                            <ng-container matColumnDef="name">
+                                                <th mat-header-cell *matHeaderCellDef> Nombre de incidentes</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                            </ng-container>
+                                            <!-- Active Column -->
+                                            <ng-container matColumnDef="active">
+                                                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <strong *ngIf="element.active"> Activo</strong>
+                                                    <strong *ngIf="!element.active"> Inactivo</strong>
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumnsCompany"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumnsCompany;"></tr>
+                                        </table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página de registro"></mat-paginator>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <h1>Bitacora de seguridad</h1>
+                                        <table mat-table [dataSource]="dataSourceBooks" matSort>
+                                            <!-- ID Column -->
+                                            <ng-container matColumnDef="id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                                                <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                                            </ng-container>
+
+                                            <!-- Nombres Column -->
+                                            <ng-container matColumnDef="inicidente">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Incidente</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.whatHappened}} </td>
+                                            </ng-container>
+
+                                            <!-- Nombres Column -->
+                                            <ng-container matColumnDef="fecha">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.incidentDate}} </td>
+                                            </ng-container>
+
+                                            <!-- Nombres Column -->
+                                            <ng-container matColumnDef="lugar">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Lugar </th>
+                                                <td mat-cell *matCellDef="let row"> {{row.wherehappen}} </td>
+                                            </ng-container>
+
+                                            <!-- Nombres Column -->
+                                            <ng-container matColumnDef="victima">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Víctima </th>
+                                                <td mat-cell *matCellDef="let row"> {{row.whom}} </td>
+                                            </ng-container>
+
+                                            <!-- Nombres Column -->
+                                            <ng-container matColumnDef="perpetrador">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> ¿Pepetrador? </th>
+                                                <td mat-cell *matCellDef="let row"> {{row.perpetrador}} </td>
+                                            </ng-container>
+
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumnsBooks"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumnsBooks;"></tr>
+
+                                            <!-- Row shown when there is no matching data. -->
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                                            </tr>
+                                        </table>
+
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página de registro"></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

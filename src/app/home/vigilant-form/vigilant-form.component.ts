@@ -76,7 +76,7 @@ export class VigilantFormComponent implements OnInit {
     this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
     this.usersData = this.localStore.getSuccessLogin();
     this.getOffice(this.usersData.user.idProyectsClients)
-    this.getEvents(this.usersData.user.idProyectsClients)
+    this.getType()
    }
 
   ngOnInit(): void {
@@ -136,11 +136,28 @@ export class VigilantFormComponent implements OnInit {
         this.alert.error(Menssage.error, Menssage.server);
       });
   }
-
-  getEvents(item: number){
+  getType(){
+    if (this.usersData.user.idrol === 2) {
+      this.getEventsAdmin(this.usersData.user.idProyectsClients);
+    } else {
+      this.getEvents(this.usersData.user.id);
+    }
+  }
+  getEventsAdmin(item: number){
     this.alert.loading();
       this.userService.getPedestrianEntrance(item).then((resulta: any)=>{
-            this.alert.messagefin(); 
+          console.log(resulta); 
+          this.tabletList(resulta)
+      }).catch((err: any)=>{
+        console.log(err.error)
+        if (err.error.message != undefined) {
+          this._https.logout()
+        }
+        this.alert.error(Menssage.error, Menssage.server);
+      });
+  }
+  tabletList(resulta: any[]){
+          this.alert.messagefin(); 
             this.eventsData = resulta
             this.listUser = []
             resulta.forEach((element: any) => {
@@ -159,11 +176,17 @@ export class VigilantFormComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
             console.log(this.eventsData)
+  }
+  getEvents(item: number){
+    this.alert.loading();
+      this.userService.getpedestrianEntranceUsers(item).then((resulta: any)=>{
+          console.log(resulta); 
+          this.tabletList(resulta)
       }).catch((err: any)=>{
         console.log(err.error)
         if (err.error.message != undefined) {
           this._https.logout()
-        }
+        } 
         this.alert.error(Menssage.error, Menssage.server);
       });
   }

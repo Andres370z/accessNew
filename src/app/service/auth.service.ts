@@ -68,8 +68,17 @@ export class AuthService {
     return  this.registeresquest.POST(RoutersLink.operatorPost, inform)
   }
   logout(){
+    this.alert.messagefin();
+    if (this.usersData.user.idrol == 1) {
+      console.log("uno")
+      localStorage.removeItem('token')
+      this.route.navigate([RoutersLink.login]);
+    } else {
+      console.log("dos")
+      this.route.navigate([RoutersLink.loginClients+this.customerDetail.api_token]);
+      localStorage.removeItem('token')
+    }
     this.localStore.clear();
-    this.route.navigate([RoutersLink.login]);
   } 
   cerra(){
     this.alert.messagefin();
@@ -82,6 +91,7 @@ export class AuthService {
       this.route.navigate([RoutersLink.loginClients+this.customerDetail.api_token]);
       localStorage.removeItem('token')
     }
+    this.localStore.clear();
   }
 
   getCity(){
@@ -253,5 +263,8 @@ export class AuthService {
     formData.append("file", inform.file);
     formData.append("id", inform.id);
     return  this.registeresquest.POST(RoutersLink.imgUpdate, formData)
+  }
+  updateUsersClient(item:any){
+    return  this.registeresquest.POST(RoutersLink.updateUsersClient, item) 
   }
 }

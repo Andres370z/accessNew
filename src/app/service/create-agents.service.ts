@@ -13,7 +13,9 @@ export class CreateAgentsService {
   createAgents(inform:any){
     return  this.registeresquest.POST(RoutersLink.register, inform)
   }
-
+  editAgents(inform:any){
+    return  this.registeresquest.PUT(RoutersLink.editUsers+'/'+inform.id, inform)
+  }
   getCreateAgents(item: number){
     return  this.registeresquest.GET(RoutersLink.indexgetgoin+item)
   }

@@ -280,10 +280,11 @@ export class VehicleDataComponent implements OnInit {
     console.log(file)
     this.alert.loading();
       this.vehicleDataService.getRegisteredVehicle(file).then((resulta: any)=>{
+        this.alert.messagefin(); 
           if (resulta.length != 0) {
             this.userID(resulta)
           }
-          this.alert.messagefin(); 
+          
       }).catch((err: any)=>{
         console.log(err)
         if (err.error.message != undefined) {

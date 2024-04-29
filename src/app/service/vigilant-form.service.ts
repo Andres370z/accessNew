@@ -39,6 +39,11 @@ export class VigilantFormService {
     return  this.registeresquest.GET(RoutersLink.pedestrianEntranceGet+id)
   }
 
+  getpedestrianEntranceUsers(id: number){
+    return  this.registeresquest.GET(RoutersLink.pedestrianEntranceUsers+id)
+  }
+  
+
   getUsers() {
     return this.userRegister.slice()
   }
