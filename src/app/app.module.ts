@@ -48,7 +48,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRoutes } from './app.routing';
 import { InterceptorService } from './service/interceptor.service';
-import { NgxWhatsappModule } from "@ngodings/ngx-whatsapp";
+import { FloatingButtonModule } from './home/floating-button/floating-button.module';
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -100,7 +100,7 @@ export class MaterialModule {}
         NavbarModule,
         FooterModule,
         FixedpluginModule,
-        NgxWhatsappModule
+        FloatingButtonModule
     ],
     declarations: [
         AppComponent,
