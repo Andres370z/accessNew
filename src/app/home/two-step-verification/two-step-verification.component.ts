@@ -48,10 +48,10 @@ export class TwoStepVerificationComponent implements OnInit {
       window.location.reload()
     }
     this.getAuthDetails();
-    if(localStore.getItem('token_Verfy')){
+    /*if(localStore.getItem('token_Verfy')){
       this.token = true;
       //this.qrBase64temp = localStore.getItem('token_Verfy')
-    }
+    }*/
   }
 
   ngOnInit() {
