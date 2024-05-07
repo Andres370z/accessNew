@@ -8,17 +8,19 @@ import { PagesRoutes } from './pages.routing';
 
 import { LoginComponent } from './login/login.component';
 import { LoginClientComponent } from './loginClient/loginClient.component';
+import { TwoStepVerificationComponent } from './two-step-verification/two-step-verification.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(PagesRoutes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [
     LoginComponent,
-    LoginClientComponent
+    LoginClientComponent,
+    TwoStepVerificationComponent
   ]
 })
 

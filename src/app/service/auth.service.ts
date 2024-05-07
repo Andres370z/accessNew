@@ -42,7 +42,19 @@ export class AuthService {
     };
     return  this.registeresquest.POST(RoutersLink.register, data)
   }
-
+  getAuthVerification(){
+    return this.registeresquest.GETER('tfa/setup', { observe: 'response' })
+  }
+  setupAuth() {
+    console.log('estas')
+    const setup = 'tfa/setup'
+    return this.registeresquest.POSTS(setup, {observe: 'response'},{})
+  }
+  verifyAuth(token: any){
+    console.log('este es el token', token);
+    const verify = 'tfa/verify'
+    return this.registeresquest.POSTS(verify,{token},{})
+  }
   resgisterImageEvents(inform:any){
     return  this.registeresquest.POST(RoutersLink.resgisterImageEvents, inform)
   }

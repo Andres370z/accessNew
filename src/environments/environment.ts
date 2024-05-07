@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   api: 'https://apiaccesscontrolsoft.softsaenz.com.co/api/auth/',
+  apiLocal: 'http://localhost:3000/',
   img: 'https://apiaccesscontrolsoft.softsaenz.com.co/'
 };

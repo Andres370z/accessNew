@@ -7,7 +7,7 @@ const routes: Routes = [
   { 
     path: '', 
     component: HomeComponent,
-    redirectTo: 'content',
+    redirectTo: 'verfication',
     pathMatch: 'full'
   }, 
   {
@@ -23,6 +23,8 @@ const routes: Routes = [
   { path: 'createUsers', loadChildren: () => import('./create-agents/create-agents.module').then(m => m.CreateAgentsModule) },
   { path: 'createOperator', loadChildren: () => import('./bulk-load/bulk-load.module').then(m => m.BulkLoadModule) },
   { path: 'content', loadChildren: () => import('./content/content.module').then(m => m.ContentModule) },
+  //VERIFICACION EN 2 PASOS
+  { path: 'verfication', loadChildren: () => import('./two-step-verification/two-step-verification.module').then(m => m.TwoStepVerificationModule) },
   { path: 'uploadImages', loadChildren: () => import('./upload-images/upload-images.module').then(m => m.UploadImagesModule) },
   { path: 'logsUsers', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
   { path: 'listRecordsMade', loadChildren: () => import('./list-assign/list-assign.module').then(m => m.ListAssignModule) },
