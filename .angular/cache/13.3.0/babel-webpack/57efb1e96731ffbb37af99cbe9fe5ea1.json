@@ -1,1 +1,0 @@
-{"ast":null,"code":"export var environment = {\n  production: true,\n  api: 'https://apiaccesscontrolsoft.softsaenz.com.co/api/auth/',\n  img: 'https://apiaccesscontrolsoft.softsaenz.com.co/'\n};","map":null,"metadata":{},"sourceType":"module"}
