@@ -1,7 +1,7 @@
 node_modules
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
-.angular
+.angular/cache/13.3.0/angular-webpack/c3de5441ecef9a64669012777faf0d81aafdceac/4.pack
 ### Node ###
 # Logs
 logs
